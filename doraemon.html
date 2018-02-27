@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>doraemon</title>
+	<style>
+		#doraemon {
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body onload="draw()">
+	<canvas id="doraemon" width="400" height="600"></canvas>
+	<div id="put" width="50px" height="20px"></div>
+</body>
+
+<script>
+	function coordinate(event){
+		var x = event.clientX;
+		var y = event.clientY;
+		var out = document.getElementById('put');
+		out.innerText = "x:" + x + " y:" + y; 
+	}
+
+	function draw(){
+		var canvas = document.getElementById("doraemon");
+		if(canvas.getContext){
+			var ctx = canvas.getContext('2d');
+
+			//先画头部
+		    ctx.beginPath();
+		    ctx.lineWidth = 1;
+		    ctx.srokeStyle = "#000"; //笔触的颜色
+		    ctx.arc(200,170,175,0.7*Math.PI,0.3*Math.PI); //绘制弧，中心点（200,175）,半径175
+		    ctx.fillStyle = "#0bb0da"; //填充时的颜色
+		    ctx.fill();
+		    ctx.stroke();
+	    
+		    //画面部轮廓
+		    ctx.beginPath();
+		    ctx.fillStyle = "#fff";
+		    ctx.moveTo(110,110); //移动笔触
+		    ctx.quadraticCurveTo(-10,200,120,310); //创建二次贝塞尔曲线，控制点(-10,200),结束点(120,315)
+		    ctx.lineTo(280,310); //绘制从(120,310)到(120,315)的线条n
+		    ctx.quadraticCurveTo(410,210,290,110);
+		    ctx.stroke();
+		    ctx.fill();
+        
+	        //眼睛轮廓
+	        ctx.beginPath();
+		    ctx.lineWidth = 1;
+		    ctx.fillStyle = "#fff";
+		    ctx.moveTo(110,110);
+		    ctx.bezierCurveTo(110,25,200,25,200,100); //创建三次贝塞尔曲线,控制点1(110,25),控制点2(200,25),结束点(200,100)，也就是画左上半椭圆
+		    ctx.bezierCurveTo(200,175,110,175,110,100);
+		    ctx.moveTo(200,100);
+		    ctx.bezierCurveTo(200,25,290,25,290,100); //右上半椭圆
+		    ctx.bezierCurveTo(290,175,200,175,200,100);
+		    ctx.fill();
+		    ctx.stroke();
+            
+            //左右眼球
+		    ctx.beginPath();
+		    ctx.fillStyle = "#000";
+		    ctx.arc(165,130,15,0,Math.PI*2);
+		    ctx.moveTo(235,130);
+		    ctx.arc(235,130,15,0,Math.PI*2);
+		    ctx.fill();
+		    ctx.stroke();
+
+            //鼻子
+		    ctx.beginPath();
+		    ctx.fillStyle = "#d05823";
+		    ctx.arc(200,165,25,0,Math.PI*2)
+		    ctx.fill();
+		    ctx.stroke();
+
+		    //胡须和“猫中”
+		    ctx.beginPath();
+		    // ctx.lineWidth = 2;
+		    //右边胡须
+		    ctx.moveTo(80,185);
+		    ctx.lineTo(150,195);
+		    ctx.moveTo(80,215);
+		    ctx.lineTo(150,205);
+            ctx.moveTo(80,255);
+            ctx.lineTo(150,215);
+            //“猫中”
+            ctx.moveTo(200, 195);
+            ctx.lineTo(200, 290);
+            //左边胡须
+            ctx.moveTo(250, 195);
+	        ctx.lineTo(320, 185);
+	        ctx.moveTo(250, 205);
+	        ctx.lineTo(320, 215);
+	        ctx.moveTo(250, 215);
+	        ctx.lineTo(320, 255);
+            ctx.stroke();
+
+            //嘴
+            ctx.beginPath();
+            ctx.moveTo(105, 260);
+            ctx.quadraticCurveTo(200, 330, 295, 260);
+            ctx.stroke();
+
+            //围巾
+            ctx.beginPath();
+		    ctx.fillStyle = "#b13209";
+		    ctx.moveTo(87, 310);
+		    ctx.arcTo(330,310,330,320,10);//在画布上创建介于两个切线之间的弧，起点是（80,310）,端点1是(330,310),端点2是(330,320)，半径是10
+		    ctx.arcTo(330,340,305,340,10);
+		    ctx.arcTo(80,340,80,330,10);
+		    ctx.arcTo(80,310,85,310,10);
+		    ctx.fill();
+		    ctx.stroke();
+
+		    //衣服
+		    //左边
+            ctx.beginPath();
+		    ctx.fillStyle = "#0bb0da";
+		    ctx.moveTo(87,340);
+		    ctx.lineTo(31,400);
+		    ctx.lineTo(72,434);
+		    ctx.lineTo(92,412);
+		    ctx.lineTo(92,522);    
+		    //右边
+		    ctx.lineTo(315,522);
+		    ctx.lineTo(315,412);
+		    ctx.lineTo(337,434);
+		    ctx.lineTo(374,400);
+		    ctx.lineTo(320,340);
+		    ctx.fill();
+            ctx.stroke();
+            
+            //双手
+            ctx.beginPath();
+		    ctx.fillStyle = "#fff";
+		    ctx.arc(43,425,30,0,Math.PI*2);
+		    ctx.moveTo(396,425);
+		    ctx.arc(366,425,30,0,Math.PI*2);
+		    ctx.fill();
+		    ctx.stroke();
+
+		    //肚子
+		    ctx.beginPath();
+		    ctx.fillStyle = "#fff";
+		    ctx.arc(200,394,91,Math.PI*1.8,Math.PI*1.2);
+		    ctx.fill();
+		    ctx.stroke();
+
+		    //口袋
+		    ctx.beginPath();
+		    ctx.fillStyle = "#fff";
+		    ctx.moveTo(130,394);
+		    ctx.lineTo(270,394);
+		    ctx.moveTo(130,394);
+		    ctx.bezierCurveTo(130,490,270,490,270,394);
+		    ctx.fill();
+		    ctx.stroke();
+
+		    //两只脚的空隙
+		    ctx.beginPath();
+		    ctx.fillStyle = "#fff";
+		    ctx.arc(200,522,20,0,Math.PI,true);
+		    ctx.fill();
+		    ctx.stroke();
+
+		    //两只脚
+		    ctx.beginPath();
+		    ctx.fillStyle = "#fff";
+		    ctx.moveTo(180,520);
+		    ctx.lineTo(72,520);
+		    ctx.bezierCurveTo(52,520,52,550,72,550);
+		    ctx.lineTo(180,550);
+		    ctx.moveTo(180,550);
+		    ctx.bezierCurveTo(200,550,200,520,180,520);
+		    
+		    ctx.moveTo(220,520);
+	        ctx.lineTo(328,520);
+	        ctx.bezierCurveTo(348,520,348,550,328,550);
+	        ctx.lineTo(220,550);
+	        ctx.moveTo(220,550);
+	        ctx.bezierCurveTo(200,550,200,520,220,520);
+
+		    ctx.fill();
+		    ctx.stroke();
+
+	    }
+	}
+</script>
+</html>
