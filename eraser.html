@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas eraser</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<style>
+       canvas {
+       	background-color: #eee;
+       	display: block;
+       	margin: 0 auto;
+       }
+	</style>
+</head>
+<body onload="eraser()">
+	<canvas id="myCanvas" width = "600"; height="800";></canvas>
+</body>
+<script>
+    function eraser(){
+		var canvas = document.getElementById('myCanvas');
+		var ERASER_SIZE = 15; //橡皮擦的大小
+        var dragging = false; //是否可拖动
+
+		//坐标转换
+		//将鼠标点击或移动时获取的坐标值，减去 canvas 相对窗口的坐标值，就是在 canvas 画布中的坐标值
+		function windowToCanvas(e){
+			var x = e.targetTouches[0].clientX,
+			    y = e.targetTouches[0].clientY,
+			    box = canvas.getBoundingClientRect();
+			return {
+				x: x - box.left,
+				y: y - box.top
+			};
+		}
+
+		//绘制剪辑区域，并清除该区域中的内容；
+	    //loc为当前手指相对于canvas的位置；
+	    function drawEraser(loc){
+	        ctx.save();
+	        ctx.beginPath();
+	        ctx.arc(loc.x,loc.y,ERASER_SIZE,0,Math.PI*2,false);
+	        ctx.clip();
+	        ctx.clearRect(0,0,canvas.width,canvas.height);
+	        ctx.restore();
+	    }
+
+		if(canvas.getContext){
+			var ctx = canvas.getContext('2d');
+        
+            //页面加载时，绘制一个铺满 canvas 画布的矩形，该矩形用于被消擦除    
+            ctx.beginPath();
+            ctx.fillStyle = '#666';
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+
+            //手指按下时，开启 dragging 状态，并绘制剪辑区域
+            canvas.addEventListener('touchstart',function(e){
+            	var loc = windowToCanvas(e);
+            	drawEraser(loc);
+            	dragging = true;
+            })
+
+            //手指移动时，不断进行剪辑区域的绘制，以及路径更新，实现擦除的效果
+            canvas.addEventListener('touchmove',function(e){
+            	var loc;
+            	if(dragging){
+            		loc = windowToCanvas(e);
+            		drawEraser(loc);
+            	};
+            })
+
+            //手指离开，结束擦除过程
+            canvas.addEventListener('touchend',function(e){
+                dragging = false;
+            })
+		}
+	}
+</script>
+</html>
